@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raza — Ultra‑Modern Portfolio (Frontend Only)</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- AOS (scroll animations) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <style>
+    :root {
+      --accent-aurora: #4F46E5;
+      --soft-aurora: #EEF2FF;
+      --accent-porcelain: #0EA5E9;
+      --soft-porcelain: #ECFEFF;
+    }
+    /* THEMES */
+    .theme-aurora {
+      --text: #0f172a; /* slate-900 */
+      --subtext: #475569; /* slate-600 */
+      --card-border: rgba(255,255,255,0.4);
+      --card-bg: rgba(255,255,255,0.7);
+      --ring: #e2e8f0; /* slate-200 */
+      background: linear-gradient(135deg, #F7FAFF 0%, #EAF6FF 100%);
+      color: var(--text);
+    }
+    .theme-porcelain {
+      --text: #27272a; /* zinc-800 */
+      --subtext: #52525b; /* zinc-600 */
+      --card-border: #e5e7eb;
+      --card-bg: rgba(255,255,255,0.8);
+      --ring: #e4e4e7; /* zinc-200 */
+      background: linear-gradient(135deg, #FFFDFC 0%, #F3F5F7 100%);
+      color: var(--text);
+    }
+    .text-sub { color: var(--subtext); }
+    .card {
+      background: var(--card-bg);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    }
+    .ring-soft { box-shadow: 0 0 0 1px var(--ring) inset; }
+
+    /* Marquee */
+    .marquee {
+      display: inline-block; white-space: nowrap; will-change: transform;
+      animation: marquee 20s linear infinite;
+    }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* Parallax helpers */
+    .will-parallax { will-change: transform; }
+
+    /* Skill Bars */
+    .bar { height: 12px; border-radius: 9999px; width: 0; transition: width 1.2s ease-out; }
+  </style>
+</head>
+<body class="theme-aurora min-h-screen font-sans">
+  <!-- Soft decorative blobs -->
+  <div class="pointer-events-none fixed w-[34rem] h-[34rem] rounded-full opacity-60 mix-blend-multiply -z-10" style="background: var(--soft-aurora); filter: blur(80px); top:-8rem; left:-6rem"></div>
+  <div id="blob2" class="pointer-events-none fixed w-[24rem] h-[24rem] rounded-full opacity-60 mix-blend-multiply -z-10" style="background: rgba(79,70,229,0.25); filter: blur(80px); bottom:-4rem; right:-4rem"></div>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 py-3 card">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl grid place-items-center border border-white/30 shadow-sm bg-white/70">⚡</div>
+      <span class="font-semibold tracking-tight">Muhammad Hamza</span>
+<span class="hidden md:inline text-xs text-sub">— Web Developer (HTML • CSS • JavaScript • WordPress)</span>
+
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="themeBtn" class="px-3 py-2 rounded-xl ring-soft bg-white/70 hover:bg-white transition text-sm">Aurora Light</button>
+        <a href="#projects" class="px-3 py-2 rounded-xl ring-soft bg-white/70 hover:bg-white transition text-sm">Work</a>
+        <button id="cvBtn" class="px-4 py-2 rounded-xl bg-black/80 text-white hover:bg-black transition text-sm">Download CV</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="hero" class="relative overflow-hidden">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 grid lg:grid-cols-2 gap-10 items-center">
+      <div>
+<h1 id="heroTitle" class="text-4xl md:text-6xl font-black leading-[1.05] tracking-tight will-parallax" data-parallax="0.4">
+  Crafting modern and responsive web solutions — clean, fast, and user-focused.
+</h1>
+<p class="mt-5 max-w-2xl text-sub">
+  I design and develop efficient, visually appealing websites with a focus on performance and great user experience.
+</p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="https://muzziwebdev.netlify.app" target="_blank" class="group"><span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl ring-soft bg-white/70 hover:bg-white transition shadow-sm">🌐 Portfolio ↗</span></a>
+          <a href="https://github.com" target="_blank" class="group"><span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl ring-soft bg-white/70 hover:bg-white transition shadow-sm">🐙 GitHub ↗</span></a>
+          <a href="https://www.linkedin.com" target="_blank" class="group"><span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl ring-soft bg-white/70 hover:bg-white transition shadow-sm">🔗 LinkedIn ↗</span></a>
+        </div>
+    <div class="mt-6 flex items-center gap-2 text-sm">
+  <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full ring-soft bg-white/60">🧠 2+ yrs experience</span>
+  <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full ring-soft bg-white/60">💻 HTML • CSS • JS • WP</span>
+  <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full ring-soft bg-white/60">🚀 Responsive • SEO Friendly</span>
+</div>
+  </div>
+      <div class="relative">
+        <div id="heroCard" class="relative card rounded-3xl p-6 will-parallax" data-parallax="0.8">
+     <div class="grid grid-cols-3 gap-3">
+  <div class="aspect-square rounded-2xl border border-white/60 shadow-inner overflow-hidden">
+    <img src="IMG-20251019-WA0142.jpg" alt="Brand 1" class="w-full h-full object-cover rounded-2xl">
+  </div>
+  <div class="aspect-square rounded-2xl border border-white/60 shadow-inner overflow-hidden">
+    <img src="IMG-20251019-WA0143.jpg" alt="Brand 2" class="w-full h-full object-cover rounded-2xl">
+  </div>
+  <div class="aspect-square rounded-2xl border border-white/60 shadow-inner overflow-hidden">
+    <img src="IMG-20251019-WA0144.jpg" alt="Brand 3" class="w-full h-full object-cover rounded-2xl">
+  </div>
+    <div class="aspect-square rounded-2xl border border-white/60 shadow-inner overflow-hidden">
+    <img src="IMG-20251019-WA0145.jpg" alt="Brand 1" class="w-full h-full object-cover rounded-2xl">
+  </div>
+  <div class="aspect-square rounded-2xl border border-white/60 shadow-inner overflow-hidden">
+    <img src="IMG-20251019-WA0146.jpg" alt="Brand 2" class="w-full h-full object-cover rounded-2xl">
+  </div>
+  <div class="aspect-square rounded-2xl border border-white/60 shadow-inner overflow-hidden">
+    <img src="IMG-20251019-WA0147.jpg" alt="Brand 3" class="w-full h-full object-cover rounded-2xl">
+  </div>
+  <!-- Repeat for rest of the boxes -->
+</div>
+   <!-- Magnetic-ish CTA -->
+        <div class="mt-6">
+          <button id="magnet" class="inline-flex items-center gap-2  rounded-2xl bg-gradient-to-br from-black to-black/80 text-white shadow-xl will-change-transform"></button>
+        </div>
+      </div>
+    </section>
+  </header>
+
+<!-- SKILLS MARQUEE -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+    <div class="marquee">
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">HTML5</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">CSS3</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">JavaScript</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">WordPress</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Tailwind CSS</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Bootstrap</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Git</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">GitHub</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Netlify</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Responsive Design</span></span>
+
+      <!-- duplicate set for seamless loop -->
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">HTML5</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">CSS3</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">JavaScript</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">WordPress</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Tailwind CSS</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Bootstrap</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Git</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">GitHub</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Netlify</span></span>
+      <span class="mx-4 inline-block"><span class="px-3 py-1 rounded-full ring-soft bg-white/70">Responsive Design</span></span>
+    </div>
+  </div>
+</section>
+
+
+<!-- TECHNICAL SKILL BARS -->
+<section id="skill-bars" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-aos="fade-up">
+  <h2 class="text-2xl md:text-3xl font-bold mb-10 tracking-tight text-center">Technical Skills</h2>
+  <div class="space-y-6 max-w-3xl mx-auto">
+
+    <div class="card rounded-2xl p-4">
+      <div class="flex justify-between mb-2">
+        <span class="font-medium">HTML5</span><span class="text-sub">95%</span>
+      </div>
+      <div class="w-full h-3 rounded-xl bg-white/50 overflow-hidden">
+        <div class="bar" data-width="95%" style="background-color: var(--accent-aurora)"></div>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl p-4">
+      <div class="flex justify-between mb-2">
+        <span class="font-medium">CSS3</span><span class="text-sub">92%</span>
+      </div>
+      <div class="w-full h-3 rounded-xl bg-white/50 overflow-hidden">
+        <div class="bar" data-width="92%" style="background-color: var(--accent-porcelain)"></div>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl p-4">
+      <div class="flex justify-between mb-2">
+        <span class="font-medium">JavaScript</span><span class="text-sub">88%</span>
+      </div>
+      <div class="w-full h-3 rounded-xl bg-white/50 overflow-hidden">
+        <div class="bar" data-width="88%" style="background-color: #EAB308"></div>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl p-4">
+      <div class="flex justify-between mb-2">
+        <span class="font-medium">WordPress</span><span class="text-sub">85%</span>
+      </div>
+      <div class="w-full h-3 rounded-xl bg-white/50 overflow-hidden">
+        <div class="bar" data-width="85%" style="background-color: #2563EB"></div>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl p-4">
+      <div class="flex justify-between mb-2">
+        <span class="font-medium">Tailwind CSS</span><span class="text-sub">90%</span>
+      </div>
+      <div class="w-full h-3 rounded-xl bg-white/50 overflow-hidden">
+        <div class="bar" data-width="90%" style="background-color: #14B8A6"></div>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl p-4">
+      <div class="flex justify-between mb-2">
+        <span class="font-medium">Bootstrap</span><span class="text-sub">87%</span>
+      </div>
+      <div class="w-full h-3 rounded-xl bg-white/50 overflow-hidden">
+        <div class="bar" data-width="87%" style="background-color: #7952B3"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" data-aos="fade-up">
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <div class="card rounded-3xl p-6">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="h-10 w-10 rounded-2xl grid place-items-center bg-white/80 border border-white/60">💻</div>
+        <h3 class="font-semibold">Web Development</h3>
+      </div>
+      <p class="text-sub">Building fast, modern, and responsive websites using HTML, CSS, JavaScript, and WordPress.</p>
+    </div>
+
+    <div class="card rounded-3xl p-6">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="h-10 w-10 rounded-2xl grid place-items-center bg-white/80 border border-white/60">🎨</div>
+        <h3 class="font-semibold">UI / UX Design</h3>
+      </div>
+      <p class="text-sub">Crafting clean, user-friendly interfaces with Tailwind CSS and Bootstrap components.</p>
+    </div>
+
+    <div class="card rounded-3xl p-6">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="h-10 w-10 rounded-2xl grid place-items-center bg-white/80 border border-white/60">⚡</div>
+        <h3 class="font-semibold">Responsive Optimization</h3>
+      </div>
+      <p class="text-sub">Ensuring websites look perfect on every screen size with cross-browser compatibility and fast performance.</p>
+    </div>
+
+  </div>
+</section>
+  <!-- PROJECTS -->
+<section id="projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14" data-aos="fade-up">
+  <div class="flex items-end justify-between mb-6">
+    <h2 class="text-2xl md:text-3xl font-bold tracking-tight">Selected Work</h2>
+    <span class="text-sm text-sub">More on request</span>
+  </div>
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <!-- Project 1 -->
+    <a href="#" class="group rounded-3xl overflow-hidden card block">
+      <div class="p-6">
+        <div class="aspect-[16/9] rounded-2xl overflow-hidden border border-white/60">
+          <img src="Project/IMG-20251019-WA0147.jpg" alt="Restaurant ERP" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-semibold text-lg">Juice Web Project</h3>
+            <p class="text-sm mt-1 text-sub">Responsive website using HTML, CSS, Bootstrap, and JS.</p>
+          </div>
+          <span class="opacity-60 group-hover:translate-x-1 group-hover:-translate-y-1 transition">↗</span>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+          <span class="px-3 py-1 rounded-full border border-black/10">HTML</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">CSS</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">JavaScript</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">Bootstrap</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Project 2 -->
+    <a href="#" class="group rounded-3xl overflow-hidden card block">
+      <div class="p-6">
+        <div class="aspect-[16/9] rounded-2xl overflow-hidden border border-white/60">
+          <img src="Project/IMG-20251019-WA0146.jpg" alt="E-Commerce Perfumes" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-semibold text-lg">Product Showcase</h3>
+            <p class="text-sm mt-1 text-sub">Responsive website showcasing products using WordPress.</p>
+          </div>
+          <span class="opacity-60 group-hover:translate-x-1 group-hover:-translate-y-1 transition">↗</span>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+          <span class="px-3 py-1 rounded-full border border-black/10">WordPress</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Project 3 -->
+    <a href="#" class="group rounded-3xl overflow-hidden card block">
+      <div class="p-6">
+        <div class="aspect-[16/9] rounded-2xl overflow-hidden border border-white/60">
+          <img src="Project/IMG-20251019-WA0144.jpg" alt="Truck Hiring SaaS" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-semibold text-lg">Food Web Project</h3>
+            <p class="text-sm mt-1 text-sub"></p>Responsive website for a food business using HTML, CSS, Bootstrap, and JS.</p>
+          </div>
+          <span class="opacity-60 group-hover:translate-x-1 group-hover:-translate-y-1 transition">↗</span>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+         <span class="px-3 py-1 rounded-full border border-black/10">HTML</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">CSS</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">JavaScript</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">Bootstrap</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Project 4 -->
+    <a href="#" class="group rounded-3xl overflow-hidden card block">
+      <div class="p-6">
+        <div class="aspect-[16/9] rounded-2xl overflow-hidden border border-white/60">
+          <img src="Project/IMG-20251019-WA0145.jpg" alt="Crypto Casino UI" class="w-full h-full object-cover">
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <h3 class="font-semibold text-lg">Portfolio Website</h3>
+            <p class="text-sm mt-1 text-sub">Personal portfolio to showcase projects using HTML, CSS, TailwindCSS, and JS.</p>
+          </div>
+          <span class="opacity-60 group-hover:translate-x-1 group-hover:-translate-y-1 transition">↗</span>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+          <span class="px-3 py-1 rounded-full border border-black/10">HTML</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">CSS</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">JavaScript</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">Tailwind CSS</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" data-aos="fade-up">
+  <div class="card rounded-3xl p-8">
+    <div class="grid lg:grid-cols-3 gap-8 items-start">
+      <div class="lg:col-span-2">
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight">About</h2>
+        <p class="mt-3 text-sub">
+          I’m a passionate Web Developer who loves creating beautiful, responsive, and user-friendly websites.
+          My work focuses on clean code, modern UI, and smooth user experiences using tools like HTML, CSS, JavaScript, Tailwind CSS, and WordPress.
+        </p>
+        <ul class="mt-6 grid sm:grid-cols-2 gap-3 text-sm">
+          <li class="p-4 rounded-2xl ring-soft bg-white/70">⚡ Fast & responsive websites</li>
+          <li class="p-4 rounded-2xl ring-soft bg-white/70">🎨 Modern, pixel-perfect UI design</li>
+          <li class="p-4 rounded-2xl ring-soft bg-white/70">🔧 WordPress customization & themes</li>
+          <li class="p-4 rounded-2xl ring-soft bg-white/70">🌍 SEO-friendly & cross-browser compatible</li>
+        </ul>
+      </div>
+     <div class="space-y-3 ">
+  <a href="mailto:m.hamza19536@gmail.com" class="flex items-center justify-between px-4 py-3 rounded-2xl ring-soft bg-white/70 hover:bg-white transition">
+    Email: m.hamza19536@gmail.com <span>✉️</span>
+  </a>
+  <a href="tel:+923350235180" class="flex items-center justify-between px-4 py-3 rounded-2xl ring-soft bg-white/70 hover:bg-white transition">
+    Call: 0335-0235180 <span>📞</span>
+  </a>
+  <a href="https://linktr.ee/MuhammadHamzaweb" target="_blank" class="flex items-center justify-between px-4 py-3 rounded-2xl ring-soft bg-white/70 hover:bg-white transition">
+    All Links <span>🌐</span>
+  </a>
+</div>
+   </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 card rounded-3xl p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div>
+      <div class="font-semibold">Let’s create something amazing together.</div>
+      <div class="text-sm text-sub">Open for freelance projects and long-term collaborations.</div>
+    </div>
+  <div class="flex items-center gap-3">
+  <a href="mailto:m.hamza19536@gmail.com" class="px-4 py-2 rounded-xl bg-black text-white">
+    Email
+  </a>
+  <a href="https://linktr.ee/MuhammadHamzaweb" target="_blank" class="px-4 py-2 rounded-xl bg-white/80 ring-soft">
+    All Links
+  </a>
+</div>
+</div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 text-center text-xs opacity-60">
+    © <span id="year"></span> Muhammad Hamza — Web Developer. Built with ♥ using HTML, CSS & Tailwind.
+  </div>
+</footer>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 800, once: true });
+
+  // Theme toggle
+  const themeBtn = document.getElementById('themeBtn');
+  let theme = 'aurora';
+  themeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('theme-aurora');
+    document.body.classList.toggle('theme-porcelain');
+    theme = theme === 'aurora' ? 'porcelain' : 'aurora';
+    themeBtn.textContent = theme === 'aurora' ? 'Aurora Light' : 'Porcelain Light';
+    const blob2 = document.getElementById('blob2');
+    blob2.style.background = theme === 'aurora' ? 'rgba(79,70,229,0.25)' : 'rgba(14,165,233,0.25)';
+  });
+
+  // Parallax effect (lightweight)
+  const parallaxEls = document.querySelectorAll('[data-parallax]');
+  function parallax() {
+    const scrollY = window.scrollY;
+    parallaxEls.forEach(el => {
+      const factor = parseFloat(el.getAttribute('data-parallax')) || 0.5;
+      el.style.transform = `translateY(${-(scrollY * factor) / 5}px)`;
+    });
+  }
+  window.addEventListener('scroll', parallax);
+  parallax();
+
+  // Magnetic hover
+  const magnet = document.getElementById('magnet');
+  magnet.addEventListener('mousemove', (e) => {
+    const rect = magnet.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    magnet.style.transform = `translate(${x / 25}px, ${y / 25}px)`;
+  });
+  magnet.addEventListener('mouseleave', () => { magnet.style.transform = 'translate(0,0)'; });
+
+  // Skill bar animation
+  const bars = document.querySelectorAll('.bar');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bar = entry.target;
+        bar.style.width = bar.dataset.width;
+        io.unobserve(bar);
+      }
+    });
+  }, { threshold: 0.4 });
+  bars.forEach(b => io.observe(b));
+
+
+  // Fake CV download (text file) — without name / email / phone
+  document.getElementById('cvBtn').addEventListener('click', () => {
+    const text = `ROLE
+Front-end / Office Assistant
+
+OBJECTIVE
+Motivated and detail-oriented candidate with practical experience in office work and front-end web technologies. Strong foundational skills in HTML5, CSS3, JavaScript, Tailwind CSS, and Bootstrap, combined with 1 year of office work experience and solid MS Office proficiency. Currently continuing Intermediate studies and eager to contribute to a team where I can grow my technical and administrative skills.
+
+SKILLS
+• HTML5, CSS3
+• JavaScript (basic / intermediate)
+• Tailwind CSS
+• Bootstrap
+• Microsoft Office (Word, Excel, PowerPoint)
+• Responsive design and cross-browser compatibility
+• Basic Git / version control (if applicable)
+• Time management and office administration
+
+EXPERIENCE
+Office Assistant — Duration: 1 year
+• Performed daily administrative tasks including document preparation, data entry, and filing.
+• Managed schedules, appointments, and internal communication.
+• Used MS Office tools (Word, Excel, PowerPoint) to create reports and presentations.
+• Assisted with front-end tasks and simple website updates using HTML/CSS/JavaScript when required.
+
+EDUCATION
+Intermediate (Arts Group) — continuing (June 2025)
+Government Boys College
+
+Matriculation (Science Group) — April 2024
+Iqra Hadiqat-ul-Atfal
+
+PROJECTS
+• Personal Portfolio — Built a responsive portfolio site using HTML5, CSS3, Tailwind CSS and JavaScript to showcase projects and contact information.
+• Small Business Landing Page — Created a simple landing page using Bootstrap and responsive layout for a local business.
+
+LANGUAGES
+• Urdu
+• English
+
+REFERENCES
+Available on request.`;
+
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'CV.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+
+  // Dynamic year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
